@@ -1,16 +1,21 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import React from 'react';
-import { useColorScheme } from 'react-native';
+import { Stack } from "expo-router";
 
-import { AnimatedSplashOverlay } from '@/components/animated-icon';
-import AppTabs from '@/components/app-tabs';
+import { Header } from "@/components/ui";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
-export default function TabLayout() {
-  const colorScheme = useColorScheme();
+const queryClient = new QueryClient();
+
+export default function RootLayout() {
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <AnimatedSplashOverlay />
-      <AppTabs />
-    </ThemeProvider>
+    <QueryClientProvider client={queryClient}>
+      <Stack
+        screenOptions={{
+          headerTitleAlign: "center",
+          headerTitle: () => <Header />
+        }}
+      >
+        <Stack.Screen name="(tabs)" />
+      </Stack>
+    </QueryClientProvider>
   );
 }
