@@ -5,6 +5,7 @@ export default function SettingScreen() {
   return (
     <View>
       <Text style={GlobalStyles.title}>Settings</Text>
+
     </View>
   );
 }

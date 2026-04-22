@@ -1,6 +1,8 @@
+import { Separator } from "@/components/ui";
+import { GlobalStyles } from "@/styles/global";
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
-import { Button, ScrollView, StyleSheet, Text } from "react-native";
+import { ActivityIndicator, Button, FlatList, ScrollView, Text, View } from "react-native";
 
 export default function HomeScreen() {
   const { data, isLoading, isError } = useQuery({
@@ -10,23 +12,28 @@ export default function HomeScreen() {
 
   return (
     <ScrollView>
-      <Text> Test </Text>
+      <Text style={GlobalStyles.title}> Habits </Text>
       <Button
         title="Press Me"
         onPress={() => alert("You pressed")}
       />
 
-      {isLoading && <Text>Loading...</Text>}
+      {isLoading && <ActivityIndicator size="large" />}
+
       {isError && <Text>Error...</Text>}
-      {data && <Text>{JSON.stringify(data, null, 2)}</Text>}
+
+      {data && (
+        <FlatList
+          data={data}
+          ItemSeparatorComponent={() => <Separator />}
+          renderItem={({ item }) => (
+            <View>
+              <Text>{item.name}</Text>
+              <Text>{item.email}</Text>
+            </View>
+          )}
+        />
+      )}
     </ScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
